@@ -74,16 +74,8 @@ const AddUsersToBootcamps = async (users, bootcamps) => {
     }
 }
 
-
-
-
-
-
-
-
 sequelize
     .sync({ force: true, alter: true })
-    // .sync()
     .then(async () => {
         console.log("BD sincronizada");
 
