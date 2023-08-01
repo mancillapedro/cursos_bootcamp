@@ -20,4 +20,13 @@ const Bootcamp = sequelize.define('bootcamps', {
     }
 })
 
+Bootcamp.addScope('excludeTimestamp', {
+    attributes: { exclude: ['createdAt', 'updatedAt'] },
+    include: {
+        all: true,
+        through: { attributes: [] },
+        attributes: { exclude: ['createdAt', 'updatedAt'] }
+    }
+})
+
 export default Bootcamp

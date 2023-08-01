@@ -24,26 +24,16 @@ export default {
 
     findById: async (bootcampId) => {
         try {
-            const bootcamp = await Bootcamp.findByPk(bootcampId, {
-                raw: true,
-                include: {
-                    all: true,
-                    through: { attributes: [] }
-                }
-            })
+            const bootcamp = await Bootcamp.scope('excludeTimestamp').findByPk(bootcampId)
             if (!bootcamp) throw new Error('Bootcamp no encontrado');
-            return bootcamp
+            return JSON.parse(JSON.stringify(bootcamp))
         } catch (error) { return console.log(error.message), null; }
     },
 
     findAll: async () => {
         try {
-            return await Bootcamp.findAll({
-                include: {
-                    all: true,
-                    through: { attributes: [] }
-                }
-            })
+            const bootcamps = await Bootcamp.scope('excludeTimestamp').findAll()
+            return JSON.stringify(bootcamps, null, 2)
         } catch (error) { return console.log(error.message), null; }
     }
 }

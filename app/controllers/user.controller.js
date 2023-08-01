@@ -14,14 +14,14 @@ export default {
         try {
             const user = await User.scope('excludeTimestamp').findByPk(userId)
             if (!user) throw new Error('User no encontrado');
-            return JSON.parse(JSON.stringify(user))
+            return JSON.stringify(user, null, 2)
         } catch (error) { return console.log(error.message), null; }
     },
 
     findAll: async () => {
         try {
             const users = await User.scope('excludeTimestamp').findAll()
-            return JSON.parse(JSON.stringify(users))
+            return JSON.stringify(users, null, 2)
         } catch (error) { return console.log(error.message), null; }
     },
 
@@ -31,7 +31,7 @@ export default {
             const user = await User.findByPk(userId)
             if (!user) throw new Error(`User no encontrado, id:${userId}`)
             fields.forEach(field => userFields.hasOwnProperty(field) && (user[field] = userFields[field]))
-            return await user.save()
+            return (await user.save()).dataValues
         } catch (error) { return console.log(error.message), null; }
     },
 
@@ -39,7 +39,7 @@ export default {
         try {
             const user = await User.findByPk(userId)
             if (!user) throw new Error('User no encontrado')
-            await user.destroy()
+            return await user.destroy()
         } catch (error) { return console.log(error.message), null; }
     }
 
